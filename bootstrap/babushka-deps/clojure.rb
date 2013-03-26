@@ -5,9 +5,11 @@ dep 'clojure' do
 end
 
 dep 'leiningen' do
-  met? { File.file?("/bin/lein") }
+  lein_bin = "/bin/lein"
+
+  met? { lein_bin.p.exists? }
   meet {
-    shell "curl https://raw.github.com/technomancy/leiningen/stable/bin/lein > /bin/lein && chmod 755 /bin/lein"
+    shell "curl https://raw.github.com/technomancy/leiningen/stable/bin/lein > #{lein_bin} && chmod 755 #{lein_bin}"
   }
 end
 
