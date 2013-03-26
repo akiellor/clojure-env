@@ -34,4 +34,4 @@ function get_babushka {
 get_ruby
 get_babushka
 
-babushka 'file'
+babushka 'clojure'
