@@ -2,19 +2,34 @@
 set -e
 
 function get_ruby {
-	if ! command -v ruby >/dev/null 2>&1; then
-		echo "Installing Ruby..."
+  if ! command -v ruby >/dev/null 2>&1; then
+    echo "Installing Ruby..."
 
-		apt-get update
+    apt-get update
 
-		apt-get -y install python-software-properties
-		apt-add-repository ppa:brightbox/ruby-ng-experimental
+    apt-get -y install python-software-properties
+    apt-add-repository ppa:brightbox/ruby-ng-experimental
 
-		apt-get update
+    apt-get update
 
+    apt-get -y install ruby ruby-switch ruby1.9.3 build-essential
+    ruby-switch --set ruby1.9.1
+  fi
+}
 
-		ruby-switch --set ruby1.9.1
-	fi
+function get_babushka {
+  if ! command -v curl >/dev/null 2>&1; then
+    apt-get update
+
+    apt-get -y install curl
+  fi
+
+  if ! command -v babushka >/dev/null 2>&1; then
+    echo "Installing Babushka..."
+
+    bash -c "`curl https://babushka.me/up`"
+  fi
 }
 
 get_ruby
+get_babushka
