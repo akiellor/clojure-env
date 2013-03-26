@@ -1,11 +1,15 @@
 dep 'clojure' do
   requires 'java.managed'
   requires 'clojure.managed'
-  requires 'emacs24'
+  requires 'emacs24.managed'
+  requires 'leiningen'
 end
 
-dep 'emacs24' do
-  requires 'emacs24.managed'
+dep 'leiningen' do
+  met? { File.file?("/bin/lein") }
+  meet {
+    shell "curl https://raw.github.com/technomancy/leiningen/stable/bin/lein > /bin/lein && chmod 755 /bin/lein"
+  }
 end
 
 dep 'emacs24.managed' do
