@@ -1,6 +1,5 @@
 dep 'clojure' do
   requires 'java.managed'
-  requires 'clojure.managed'
   requires 'emacs24.managed'
   requires 'leiningen'
 end
@@ -29,12 +28,6 @@ dep 'python-software-properties.managed' do
     via :apt, %w{python-software-properties}
   }
   provides %w{add-apt-repository}
-end
-
-dep 'clojure.managed' do
-  installs {
-    via :apt, %w{clojure}
-  }
 end
 
 dep 'java.managed' do
