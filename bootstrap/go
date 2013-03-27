@@ -1,22 +1,6 @@
 #!/bin/bash
 set -e
 
-function get_ruby {
-  if ! command -v ruby >/dev/null 2>&1; then
-    echo "Installing Ruby..."
-
-    apt-get update
-
-    apt-get -y install python-software-properties
-    apt-add-repository ppa:brightbox/ruby-ng-experimental
-
-    apt-get update
-
-    apt-get -y install ruby ruby-switch ruby1.9.3 build-essential
-    ruby-switch --set ruby1.9.1
-  fi
-}
-
 function get_babushka {
   if ! command -v curl >/dev/null 2>&1; then
     apt-get update
@@ -31,7 +15,6 @@ function get_babushka {
   fi
 }
 
-get_ruby
 get_babushka
 
 babushka 'clojure'
