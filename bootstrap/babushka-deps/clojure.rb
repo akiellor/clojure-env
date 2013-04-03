@@ -26,12 +26,17 @@ dep 'emacs24.config' do
   user = 'vagrant'
   content = <<-EOS
 (require 'package)
+
 (add-to-list 'package-archives
   '("marmalade" . "http://marmalade-repo.org/packages/"))
+
 (package-initialize)
+
 (when (not package-archive-contents)
   (package-refresh-contents))
-(defvar my-packages '(clojure-mode nrepl))
+
+(defvar my-packages '(clojure-mode starter-kit starter-kit-lisp starter-kit-bindings starter-kit-eshell clojure-mode clojure-test-mode nrepl))
+
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
