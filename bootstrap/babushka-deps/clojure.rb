@@ -35,11 +35,13 @@ dep 'emacs24.config' do
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(defvar my-packages '(clojure-mode starter-kit starter-kit-lisp starter-kit-bindings starter-kit-eshell clojure-mode clojure-test-mode nrepl))
+(defvar my-packages '(solarized-theme clojure-mode starter-kit starter-kit-lisp starter-kit-bindings starter-kit-eshell clojure-mode clojure-test-mode nrepl))
 
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
+
+(load-theme 'manoj-dark)
   EOS
   
   met? { File.file?(emacs_config_path) && Etc.getpwuid(File.stat(emacs_config_dir_path).uid).name == user && File.read(emacs_config_path) == content }
