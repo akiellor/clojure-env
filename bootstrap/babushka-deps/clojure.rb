@@ -1,4 +1,5 @@
 dep 'clojure' do
+  requires 'git.config'
   requires 'java.managed'
   requires 'emacs24'
   requires 'leiningen'
