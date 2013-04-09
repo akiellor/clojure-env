@@ -23,8 +23,8 @@ dep 'emacs24.config', :template => "file-deps:owner_file" do
   owner "vagrant"
   group "vagrant"
   
-  source ".emacs.d/init.el"
-  target ".emacs.d" / "init.el"
+  source File.join(".emacs.d", "init.el")
+  target File.join(".emacs.d", "init.el")
 end
 
 dep 'java.managed' do
