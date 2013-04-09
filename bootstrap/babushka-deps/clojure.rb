@@ -15,7 +15,7 @@ dep 'leiningen' do
 end
 
 dep 'emacs24' do
-  requires 'emacs24.managed'
+  requires 'emacs-deps:emacs24.managed'
   requires 'emacs24.config'
 end
 

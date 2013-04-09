@@ -17,4 +17,6 @@ function get_babushka {
 
 get_babushka
 
+babushka sources --add emacs-deps https://github.com/akiellor/emacs-deps.git
+
 babushka 'clojure'
