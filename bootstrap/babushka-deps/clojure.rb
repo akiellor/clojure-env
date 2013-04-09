@@ -19,38 +19,37 @@ dep 'emacs24' do
   requires 'emacs24.config'
 end
 
-dep 'emacs24.config' do
-  require 'fileutils'
-  
-  emacs_config_path = "/home/vagrant/.emacs.d/init.el"
-  emacs_config_dir_path = "/home/vagrant/.emacs.d"
-  user = 'vagrant'
-  content = <<-EOS
-(require 'package)
+meta "file" do
+  accepts_value_for :source
+  accepts_value_for :target
+  accepts_value_for :owner, "root"
+  accepts_value_for :group, "root"
+  accepts_value_for :permissions, "644"
 
-(add-to-list 'package-archives
-  '("marmalade" . "http://marmalade-repo.org/packages/"))
+  template {
+    def source_path
+      dependency.load_path.parent / source
+    end
 
-(package-initialize)
-
-(when (not package-archive-contents)
-  (package-refresh-contents))
-
-(defvar my-packages '(solarized-theme clojure-mode starter-kit starter-kit-lisp starter-kit-bindings starter-kit-eshell clojure-mode clojure-test-mode nrepl))
-
-(dolist (p my-packages)
-  (when (not (package-installed-p p))
-    (package-install p)))
-
-(load-theme 'manoj-dark)
-  EOS
-  
-  met? { File.file?(emacs_config_path) && Etc.getpwuid(File.stat(emacs_config_dir_path).uid).name == user && File.read(emacs_config_path) == content }
-  meet {
-    FileUtils.makedirs(File.dirname(emacs_config_path))
-    FileUtils.chown_R(user, user, File.dirname(emacs_config_path))
-    File.open(emacs_config_path, "w") {|f| f << content }
+    met? { target.p.file? && target.p.owner == owner && target.p.group == group && File.stat(target).mode.to_s(8)[3..5] == permissions && source_path.read == target.p.read } 
+    meet {
+      target.p.open("w+") do |f|
+        f << source_path.read
+      end
+      shell! "chown #{owner}:#{group} #{target}"
+      shell! "chmod #{permissions} #{target}"
+    }
   }
+end
+
+dep 'emacs24.config', :template => "file" do
+  owner "vagrant"
+  group "vagrant"
+  
+  user_home = Etc.getpwnam(owner).dir
+
+  source ".emacs.d/init.el"
+  target user_home.p / ".emacs.d" / "init.el"
 end
 
 dep 'java.managed' do
