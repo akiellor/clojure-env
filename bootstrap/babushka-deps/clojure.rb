@@ -19,14 +19,12 @@ dep 'emacs24' do
   requires 'emacs24.config'
 end
 
-dep 'emacs24.config', :template => "file-deps:file" do
+dep 'emacs24.config', :template => "file-deps:owner_file" do
   owner "vagrant"
   group "vagrant"
   
-  user_home = Etc.getpwnam(owner).dir
-
   source ".emacs.d/init.el"
-  target user_home.p / ".emacs.d" / "init.el"
+  target ".emacs.d" / "init.el"
 end
 
 dep 'java.managed' do
